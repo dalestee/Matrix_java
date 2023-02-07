@@ -35,7 +35,7 @@ public class Matrix {
 	public int matrixNumberLines() {
 		int counter = 0;
 		
-		for (int[] line : this.matrix) {
+		for (@SuppressWarnings("unused") int[] line : this.matrix) {
 			counter++;
 		}
 		return counter;
@@ -44,7 +44,7 @@ public class Matrix {
 	public int matrixNumberColumns() {
 		int counter = 0;
 		
-		for (int column : this.matrix[0]) {
+		for (@SuppressWarnings("unused") int column : this.matrix[0]) {
 			counter++;
 		}
 		return counter;
@@ -57,35 +57,49 @@ public class Matrix {
 		return true;
 	}
 	
+	public boolean equalsTo(Matrix matrix2) {
+		if(!(this.matrixNumberLines()==matrix2.matrixNumberLines())&&(this.matrixNumberColumns()==matrix2.matrixNumberColumns())) {
+			return false;
+		}
+		for (int i=0;i<this.matrixNumberLines();i++) {
+			for (int j=0;j<this.matrixNumberColumns();j++) {
+				if (this.matrix[i][j]!=matrix2.matrix[i][j]) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
 	public Matrix matrixMultiplication(Matrix matrix2) {
 		if (!this.matrixCanMultiply(matrix2)) {
 			System.out.println("Error, Multiplication not possible");
 			System.exit(1);
 		}
 		int sum = 0;
-		Matrix produit = new Matrix(this.matrix[0].length, matrix2.matrix.length);
-		for (int i=0;i<this.matrix[0].length;i++) {
-			for (int j=0;j<matrix2.matrix.length;j++) {
-				sum = 0;
-				sum = this.matrix[i][j]*matrix2.matrix[j][i];
-				produit.insertValue(sum, i, j);
+		Matrix product = new Matrix(this.matrixNumberLines(), matrix2.matrixNumberColumns());
+		for (int i=0;i<this.matrixNumberLines();i++) {
+			for (int j=0;j<matrix2.matrixNumberColumns();j++) {
+				sum=0;
+				System.out.println("i et j : "+i+" "+j);
+				for (int k=0;k<this.matrixNumberColumns();k++) {
+					sum += this.matrix[i][k]*matrix2.matrix[k][j];
+				}
+				product.insertValue(sum, i, j);
 			}
 		}
-		return produit;
+		return product;
 	}
 	
-	public void printMatrix() {
+	@Override
+	public String toString() {
+		String string = new String("");
 		for (int i=0;i<this.matrix.length;i++) {
 			for (int j=0;j<this.matrix[0].length;j++) {
-				if (this.matrix[i][j]<10) {
-
-					System.out.print(this.matrix[i][j]);
-				}
-				else {
-					System.out.print(this.matrix[i][j]);
-				}
+				string += String.valueOf(this.matrix[i][j]);
 			}
-			System.out.println("\n");
+			string += "\n";
 		}
+		return string;
 	}
 }
