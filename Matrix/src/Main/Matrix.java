@@ -57,6 +57,14 @@ public class Matrix {
 		return counter;
 	}
 	
+	public void matrixMultiplyCosient(int integer) {
+		for (int i=0;i<this.matrixNumberLines();i++) {
+			for (int j=0;j<this.matrixNumberColumns();j++) {
+				this.matrix[i][j]=this.matrix[i][j]*integer;
+			}
+		}
+	}
+	
 	public boolean matrixCanMultiply(Matrix matrix2) {
 		if (this.matrix[0].length != matrix2.matrix.length) {
 			return false;
